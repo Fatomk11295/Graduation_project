@@ -64,7 +64,7 @@ for x in df_Transposed.index:
 df_Transposed['Type'] = kind
 ```
 
-**The python code used for the preprocessing steps can be found [here](https://colab.research.google.com/drive/1uBnAHJNwqd3sB7D1bhLZxxdTqbJ3xFrs#scrollTo=6wLGZ6OQK4Dv).**
+**The python code used for the preprocessing steps can be found [here](https://github.com/Fatomk11295/Graduation_project/blob/main/prepare_the_data.py).**
 
 ----
 
