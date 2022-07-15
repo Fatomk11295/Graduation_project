@@ -1,10 +1,12 @@
-# Exploring Acute Myeloid Leukemia associated genes’  Transcription factors binding site – Drug discovery approach
+# A comparative analyses between GTEX healthy samples obtained from Bone marrow and Whole blood tissues in comparison to TCGA Acute Myeloid Leukemia database.
 
 
 ## Project description:
 
 
 - Biological questions
+
+  Which samples are more reliable to compare to AML, samples collected from Bone marrow or whole blood?
 
 - Litreature review
 
@@ -20,7 +22,7 @@ To initiate the analysis we downloaded 3 databases :
 2. [GTEX raw counts database](https://xenabrowser.net/datapages/?dataset=gtex_gene_expected_count&host=https%3A%2F%2Ftoil.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443)
 3. [TCGA AML raw counts database](https://xenabrowser.net/datapages/?dataset=TCGA.LAML.sampleMap%2FHiSeqV2&host=https%3A%2F%2Ftcga.xenahubs.net&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443)
 
-Only samples obtained from Bone marrow were collected from GTEX database, to match the origin of the samples in TGCA database. 
+GTEX raw counts database were subsetted based on tissue type (Bone marrow or Whole blood). The following steps were the same for each sub-dataset.
 
 ### **Step 2: Preprocessing the dataframe**
 
@@ -44,11 +46,29 @@ def convert_unit(df):
 ```
 2. *Remove duplicated genes*
 
+```python
+rawCounts_df_WithoutDuplicates = rawCounts_df.drop_duplicates()
+```
+
 3. *Label the samples* - based on it type into 'Case' or 'Control'
+
+```python
+#Create a list to label sample as case or control 
+kind= []
+for x in df_Transposed.index:
+  if x[0] == 'K': # K if you are using samples from Whole blood / G if you are using samples from Bone Marrow
+    kind.append('Control')
+  if x[0] == 'T':
+    kind.append('Case')
+#Define the new column Type based on kind list
+df_Transposed['Type'] = kind
+```
+
+**The python code used for the preprocessing steps can be found [here](https://colab.research.google.com/drive/1uBnAHJNwqd3sB7D1bhLZxxdTqbJ3xFrs#scrollTo=6wLGZ6OQK4Dv).**
 
 ----
 
-**After** preprocessing the data, the data frame contains 20148 genes and 221 samples. The Density plot below illustrate the genes expression distribution among all samples. >>Write a comment on the plot
+**After** preprocessing the data, the data frame contains 24637 genes and 488 samples. The Density plot below illustrate the genes expression distribution among all samples. >>Write a comment on the plot
 
 ![The gene expression distribution among all samples](data:image/png;base64,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)
 
@@ -56,4 +76,210 @@ The boxplot below present the gene expression distribution between the two group
 
 ![boxplot](data:image/png;base64,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)
 
-> Both loading and preprocessing steps are done using [python code](https://github.com/Fatomk11295/Graduation_project/blob/main/prepare_the_data.py).
+
+-----------------------
+### **Step 3: Differential gene expression analysis**
+
+For this analysis we used [DESeq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) package. 
+
+```r
+# Load essential libraries
+library(DESeq2)
+library(readr)
+library(SummarizedExperiment)
+library(ggplot2)
+
+# Step 1: prepare data for DESeq
+# link to working directory and read data files
+
+colData=read.csv("Sample_list.csv", row.names = 1)
+counts_data=read.csv("counts_data_Ready.csv",header = TRUE, row.names = 1, check.names = FALSE, stringsAsFactors =  F)
+
+# making sure the row names in colData matches to column names in counts_data
+
+all(colnames(counts_data) %in% rownames(colData))
+
+# are they in the same order?
+
+all(colnames(counts_data) == rownames(colData))
+
+# Step 2: construct a DESeqDataSet object
+
+#Round gene expression values and convert them into intgers instead of float
+counts_data[1:4,1:5]
+range(counts_data)
+counts_data<- round(counts_data, digits = 0)
+range(counts_data)
+
+# construct the dataset object for the DESeq analysis
+dds <- DESeqDataSetFromMatrix(countData = counts_data,
+                              colData = colData,
+                              design =~Type)
+
+# Set the factor level to compare between control and case samples, means, telling DESeq which level to compare against , here, we used "control" as our reference level
+
+dds$Type <- relevel(dds$Type, ref = "Control")
+
+## Check which fitType is the best 
+
+ddsPlot <- estimateSizeFactors(dds)
+par <- estimateDispersions(ddsPlot, fitType = "parametric")
+meanfit <- estimateDispersions(ddsPlot, fitType = "mean")
+loc <- estimateDispersions(ddsPlot, fitType = "local")
+plotDispEsts(par, main= "dispEst: parametric")
+plotDispEsts(meanfit, main= "dispEst: mean")
+plotDispEsts(loc, main= "dispEst: local")
+
+# Step 3: Run DESeq 
+# For our data we chose the fitType local
+
+dds <- DESeq(dds, fitType = "local" )
+final_results <- results(dds)
+
+# Explore Results
+
+summary(final_results)
+
+# Subset the data based on pvalue -only take below threshold 0.05-
+final_results0.05 <- results(dds, alpha = 0.05)
+summary(final_results0.05)
+
+# contrasts
+resultsNames(dds)
+
+# MA plot
+plotMA(final_results0.05, colNonSig = "salmon", colSig = "orchid1")
+
+# Saving adjusted p_value for each gene to csv file
+write.csv(final_results0.05, "DESeqResults_Jul12.2022_localFitType_BoneMarrow.csv")
+
+# Volcano Plot
+
+df = read.csv("DESeqResults_Jul12.2022_localFitType_BoneMarrow.csv")
+
+# The basic scatter plot: x is "log2FoldChange", y is "padj"
+ggplot(data=df, aes(x=log2FoldChange, y=padj)) + geom_point()
+
+# Convert directly in the aes()
+p <- ggplot(data=df, aes(x=log2FoldChange, y=-log10(padj))) + geom_point()
+
+# Add more simple "theme"
+p <- ggplot(data=df, aes(x=log2FoldChange, y=-log10(padj))) + geom_point() + theme_minimal()
+
+# Add vertical lines for log2FoldChange thresholds, and one horizontal line for the p-value threshold 
+p2 <- p + geom_vline(xintercept=c(-1, 1), col="salmon") + geom_hline(yintercept=-log10(0.05), col="turquoise ")
+
+# The significantly differential expressed genes are the ones found in the upper-left and upper-right corners.
+
+# Add a column to the data frame to specify if they are UP- or DOWN- regulated (log2FoldChange respectively positive or negative)
+# add a column of NOs
+df$diffexpressed <- "NO"
+# if log2Foldchange > 1and padj < 0.05, set as "UP" 
+df$diffexpressed[df$log2FoldChange > 1 & df$padj < 0.05] <- "UP"
+# if log2Foldchange < -1 and padj < 0.05, set as "DOWN"
+df$diffexpressed[df$log2FoldChange < -1 & df$padj < 0.05] <- "DOWN"
+
+# Re-plot but this time color the points with "diffexpressed"
+
+ggplot(data=df, aes(x=log2FoldChange, y=-log10(padj), col=diffexpressed, label=dflabel)) + 
+  geom_point() + 
+  theme_minimal() + scale_color_manual(values=c("salmon", "slategray2", "turquoise"))
+```
+
+Write description/interpretation of the analysis output
+
+--------------
+### **Step 4: Pathway enrichment analysis**
+
+To find the enriched pathways in each group of samples we used Gene Set Enrichment analysis with [Cluster profiler](https://bioconductor.org/packages/release/bioc/vignettes/clusterProfiler/inst/doc/clusterProfiler.html) package in r.
+
+```R
+#Import packages 
+
+library(clusterProfiler)
+library(stats, warn.conflicts = FALSE)
+library(enrichplot)
+# we use ggplot2 to add x axis labels (ex: ridgeplot)
+library(ggplot2)
+
+# STEP 1 : set orgnaism for annotation
+
+# SET THE DESIRED ORGANISM HERE
+organism = "org.Hs.eg.db"
+library(organism, character.only = TRUE, warn.conflicts = FALSE)
+
+#Check which options are available with the keytypes command
+keytypes(org.Hs.eg.db)
+
+# STEP 2 : Prepare the dataset 
+
+# reading in data from deseq2
+df = read.csv("DESeqResults_Jul12.2022_localFitType_WholeBlood.csv", header=TRUE)
+
+# we want the log2 fold change 
+original_gene_list <- df$log2FoldChange
+
+# name the vector
+names(original_gene_list) <- df$X
+
+# omit any NA values 
+gene_list<-na.omit(original_gene_list)
+
+#STEP 3 : Convert gene IDs for gseKEGG function 
+
+# We will lose some genes here because not all IDs will be converted
+ids<-bitr(names(original_gene_list), fromType = "ENSEMBL", 
+          toType = "ENTREZID", OrgDb=organism)
+
+# remove duplicate IDS (here I use "ENSEMBL", but it should be whatever was selected as keyType)
+dedup_ids = ids[!duplicated(ids[c("ENSEMBL")]),]
+
+# Create a new dataframe df2 which has only the genes which were successfully mapped using the bitr function above
+df2 = df[df$X %in% dedup_ids$ENSEMBL,]
+
+# Create a new column in df2 with the corresponding ENTREZ IDs
+df2$ENTREZID = dedup_ids$ENTREZID
+
+
+#STEP 4 : prepare the data for KEEG enrichment analysis 
+
+# Create a vector of the gene unuiverse
+kegg_gene_list <- df2$log2FoldChange
+
+# Name vector with ENTREZ ids
+names(kegg_gene_list) <- df2$ENTREZID
+
+# omit any NA values 
+kegg_gene_list<-na.omit(kegg_gene_list)
+
+# sort the list in decreasing order (required for clusterProfiler)
+kegg_gene_list = sort(kegg_gene_list, decreasing = TRUE)
+
+
+# STEP 5 : Create a KEEG object 
+
+kegg_organism = "hsa"
+kk2 <- gseKEGG(geneList     = kegg_gene_list,
+               organism     = kegg_organism,
+               nPerm        = 10000,
+               minGSSize    = 3,
+               maxGSSize    = 800,
+               pvalueCutoff = 0.05,
+               pAdjustMethod = "none",
+               keyType       = "ncbi-geneid")
+
+
+# STEP 6 : Visualize the data 
+
+dotplot(kk2, showCategory = 10, title = "Enriched Pathways" , split=".sign") + facet_grid(.~.sign)
+
+
+# categorySize can be either 'pvalue' or 'geneNum'
+cnetplot(kk2, categorySize="padj", foldChange=gene_list)
+
+
+ridgeplot(kk2) + labs(x = "enrichment distribution") + theme(axis.text = element_text(size = 8))
+```
+Write description/interpretation of the analysis output.
+
+
