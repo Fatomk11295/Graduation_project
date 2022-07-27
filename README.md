@@ -178,7 +178,7 @@ ggplot(data=df, aes(x=log2FoldChange, y=-log10(padj), col=diffexpressed, label=d
   theme_minimal() + scale_color_manual(values=c("salmon", "slategray2", "turquoise"))
 ```
 
-![My Remote Image]([https://www.dropbox.com/s/.../my-remote-image.jpg?dl=0](https://www.dropbox.com/s/whst55bkk9hscoj/volcano_WB_18Jul22.png?dl=0))
+![My Remote Image](https://www.dropbox.com/s/.../my-remote-image.jpg?dl=0](https://www.dropbox.com/s/whst55bkk9hscoj/volcano_WB_18Jul22.png?dl=0)
 
 --------------
 ### **Step 4: Pathway enrichment analysis**
