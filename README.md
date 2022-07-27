@@ -6,11 +6,10 @@
 
 - Biological questions
 
-  Which samples are more reliable to compare to AML, samples collected from Bone marrow or whole blood?
+  Which samples are more reliable to compare to TCGA AML, samples collected from Bone marrow or whole blood?
 
-- Litreature review
+  Several articles used samples collected from Bone marrow as control when studying Acute Myeloid Leukemia (AML) gene expression profile, while others used samples obtained from Whole blood. Therefore, the first question we asked ourselves was “In a world full of data, which data set is the best to use ?”. If we want to study the AML gene expression profile to find a new targeting pathway to treat AML we have to use samples as a case. Selecting the optimum control sample will form the foundation of our study. 
 
-- Databases to be used
 
 -----------
 
