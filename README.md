@@ -177,8 +177,13 @@ ggplot(data=df, aes(x=log2FoldChange, y=-log10(padj), col=diffexpressed, label=d
   geom_point() + 
   theme_minimal() + scale_color_manual(values=c("salmon", "slategray2", "turquoise"))
 ```
+![volcano_BM_18Jul2022](https://user-images.githubusercontent.com/57046700/181348131-3577311a-1962-42f7-b777-ef51fb7858cb.png)
 
-![My Remote Image](https://www.dropbox.com/s/whst55bkk9hscoj/volcano_WB_18Jul22.png?dl=0)
+This volcano plot illustrates differential gene expression distribution between TCGA-AML cases and GTEX-BM controls. The adjusted p-value threshold was set to < 0.05,  67% of genes were upregulated, whereas 19% were downregulated. 
+
+![volcano_WB_18Jul22](https://user-images.githubusercontent.com/57046700/181348905-c943cefc-3644-4a03-aa5e-ff5cb255c73e.png)
+
+This volcano plot illustrates differential gene expression distribution between TCGA-AML cases and GTEX-WB controls. The adjusted p-value threshold was set to < 0.05,  74% of genes were upregulated, whereas 9.1% were downregulated. 
 
 --------------
 ### **Step 4: Pathway enrichment analysis**
@@ -272,6 +277,26 @@ cnetplot(kk2, categorySize="padj", foldChange=gene_list)
 
 ridgeplot(kk2) + labs(x = "enrichment distribution") + theme(axis.text = element_text(size = 8))
 ```
-Write description/interpretation of the analysis output.
+![dotplot_BM](https://user-images.githubusercontent.com/57046700/181349185-f66de26b-dde9-4ee5-a73e-cb7a7e2d38ad.png)
+
+This dotplot plot illustrates GSEA results when GTEX-BM was the control. According to the literature, the top 5 enriched pathways in the BM dataset were correlated to AML. The set status was as following  28 set were significantly enriched (Adjusted p-value < 0.05), 3 sets up-regulated, and 25 were down-regulated.
+
+![dotplot_WB_18Jul2022](https://user-images.githubusercontent.com/57046700/181349722-449768ed-2b56-491b-a8cb-09a9053a877e.png)
+
+This dotplot plot illustrates GSEA results when GTEX-WB was the control. According to the literature, the top 5 enriched pathways in the WB dataset were not correlated to AML. The set status was as following  105 set were significantly enriched (Adjusted p-value < 0.05), all sets were down-regulated.
+
+------
+## **Conclusion**
+
+For the next step of our project we will use GTEX-BM dataset as the control and will follow the following approach -illustrated in the chart below- for discovering a new target to treat AML
+
+![image](https://user-images.githubusercontent.com/57046700/181350158-58aaba88-2529-4146-9c49-a093e7308bc7.png)
+
+------
+## Acknowledgement 
+
+This project wouldn't be possible without the help of our amazing instructors [Dr. Basel Abu-Jamous](https://www.linkedin.com/in/baselabujamous/), [Dr. Wail Ba-Alawi](https://www.linkedin.com/in/wail-ba-alawi/), [Prof. Rana Dajani](https://www.linkedin.com/in/rana-dajani/), and [Dr. Haitham Ashoor](https://www.linkedin.com/in/haithamashoor/) 
+
+And the help of my brilliant co-workers [Ghadeer Kurdi](https://www.linkedin.com/in/ghadeer-k-97604b17b/) and [Shaima shaderma](https://www.linkedin.com/in/shaima-shaderma-a8b539188/).
 
 
